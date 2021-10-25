@@ -1,25 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
+import {useState} from 'react';
+import Displayquote from './component/DisplayQuote';
+
 
 function App() {
+  const [quote, setQuote] = useState("");
+  const getQuote = () => {
+    axios
+      .get('https://simpsons-quotes-api.herokuapp.com/quotes')
+      .then((response) => response.data)
+      .then((data) => {
+        console.log(data)
+        setQuote(data[0]);
+  
+      })
+  } ;
+    
+  
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>The Simpson</h1>
+      <button type="button" onClick={getQuote} >Get quote</button>
+      <Displayquote quote = {quote}/>
     </div>
   );
-}
+};
 
 export default App;
